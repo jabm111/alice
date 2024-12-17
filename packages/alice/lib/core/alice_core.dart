@@ -70,8 +70,13 @@ class AliceCore {
   Future<void> _onCallsChanged(List<AliceHttpCall>? calls) async {
     if (calls != null && calls.isNotEmpty) {
       final AliceStats stats = _configuration.aliceStorage.getStats();
+      final BuildContext? context = getContext();
+      if (context == null) {
+        AliceUtils.log('Cannot show stats notification without a context');
+        return;
+      }
       _notification?.showStatsNotification(
-        context: getContext()!,
+        context: context,
         stats: stats,
       );
     }
